@@ -18,19 +18,18 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    int red=0,kolona=0;
-    int start[2]={-1,-1},end[2]={-1,-1};
-    void Redraw();
-    void SetStart(int i,int j);
-    void SetEnd(int i,int j);
+    int red=0,kolona=0;                     //promenljiva koja cuva velicinu reda i kolone
+    int start[2]={-1,-1},end[2]={-1,-1};    //koordinate starta i cilja
+    void SetStart(int i,int j);             //postavljanje starta u obliku (red,kolona)
+    void SetEnd(int i,int j);               //postavljanje cilja u obliku (red,kolona)
 
 private slots:
    // void NumChanged();
    // void StartPressed();
     void ButtonPressed();
-    void Matrica();
-    void RedSet();
-    void KolonaSet();
-    void Iscrtaj();
+    void Matrica();                         //pocetna alokacija matrice red=20, kolona=35
+    void RedSet();                          //postavljanje redova na novi broj
+    void KolonaSet();                       //postavljanje kolona na novi broj
+    void Iscrtaj();                         //iscrtavanje grid mreze nakon promene
 };
 #endif // MAINWINDOW_H

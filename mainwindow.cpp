@@ -2,8 +2,8 @@
 #include "ui_mainwindow.h"
 #include<QDebug>
 
-QPushButton *button[20][35];
-QSize velicina(20,20);
+QPushButton *button[20][35];     //niz koji cuva buttone u obliku matrice
+QSize velicina(20,20);          //podrazumevana velicina
 //platno size WxH = 700x400
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
