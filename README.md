@@ -7,3 +7,8 @@ Autori:
     
 O projektu:
     Demonstrira nalazenje puta od pocetka do cilja razlicitih pathfinder algoritama na grid mrezi. 
+    
+    Korisniku ce biti omoguceno:
+        + iscrtavanje prepreka kao i pocetne(start) i krajnje(cilj) tacke
+        + odabir velicine mreze (broj redova i kolona)
+        + odabir algoritma pretrage
