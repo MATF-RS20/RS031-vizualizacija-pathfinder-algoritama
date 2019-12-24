@@ -3,7 +3,7 @@ Vizualizacija pathfinder algoritama
 
 ## Autori:
    + Nemanja Lisinac - nemanjalisinac@gmail.com
-   + Aleksandar Blagojević - ACAB@gmail.com
+   + Aleksandar Blagojević - aleksandar.blagojevic.matf@gmail.com
     
 ## O projektu:
 
