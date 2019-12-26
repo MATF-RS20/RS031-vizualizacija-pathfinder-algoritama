@@ -237,19 +237,27 @@ void MainWindow::onRightClicked()
     int velicinaDugmeta=(700/kolona) < (400/red) ? (700/kolona): (400/red);
     int i=(x.ry()-20)/velicinaDugmeta;
     int j=(x.rx()-30)/velicinaDugmeta;
+
+    //provera da li je polje prepreka
+    // ako jeste ukloni ga iz vektora prepreka
     int indeks=prepreke.indexOf(i*100+j);
     if(indeks!=-1){
         prepreke.remove(indeks);
     }
 
+    //provera da li je pocetno polje
+    //i obrisati ga ako jeste
+    if(i==start[0] && j==start[1])
+    {start[0]=-1; start[1]=-1;}
 
+    //provera da li je polje cilj
+    //i obrisati ga ako jeste
+    if(i==end[0] && j==end[1])
+    {end[0]=-1; end[1]=-1;}
 
     QPalette tmp = this->style()->standardPalette();
     button[i][j]->setPalette(tmp);
     button[i][j]->update();
-
-
-
 
 }
 
