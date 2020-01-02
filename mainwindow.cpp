@@ -210,6 +210,10 @@ void MainWindow::SetPrepreka(int i, int j){
     if(end[0]==i && end[1]==j){
         end[0]=-1; end[1]=-1;
     }
+    //provera da li se prepreka postavlja na path
+    int indeks=path.indexOf(i*100+j);
+    if(indeks!=-1)path.remove(indeks);
+
     Paint(i,j,Qt::black);
     //globalni vektor prepreka oblika(100*red + kolona)
     prepreke.push_back(100*i+j);
@@ -233,6 +237,7 @@ void MainWindow::Clear(){
         button[a/100][a%100]->setPalette(tmp);
         button[a/100][a%100]->update();
     }
+    path.clear();
 
     //vrati start i end na default
     SetStart(red/2,kolona/4);
@@ -286,11 +291,22 @@ void MainWindow::StartPressed(){
     qDebug()<<"Prepreke: ";
     for(auto i:prepreke)
     qDebug()<<i/100<<" "<<i%100;
+    Algoritmi objekat= Algoritmi(start, end, red,  kolona, prepreke);
 
+    //ako vec postoji path potrebno ga je ocistiti
+    //bez prvog i poslednjeg elementa
+    if(!path.isEmpty()){
+        for(int a=1;a<path.size()-1;a++){
+            QPalette tmp = this->style()->standardPalette();
+            button[path[a]/100][path[a]%100]->setPalette(tmp);
+            button[path[a]/100][path[a]%100]->update();
+        }
+        path.clear();
+    }
     //proveri koji je algoritam i pozovi ga
 
     if(alg->currentIndex()==0){
-        Algoritmi objekat= Algoritmi(start, end, red,  kolona, prepreke);
+
         path=objekat.DFS(start[0]*100+start[1],end[0]*100+end[1]);
         ShowPath(path);
         qDebug()<<path;
