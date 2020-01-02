@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include "qrightclickbutton.h"
 #include <algorithm>
+#include "algoritmi.h"
 
 static QSize velicina(20,20);          //podrazumevana velicina
 //platno size WxH = 700x400
@@ -91,7 +92,7 @@ void MainWindow::RedSet(){
     QSpinBox *redBox=qobject_cast<QSpinBox*>(sender());
     red=redBox->value();
     Iscrtaj();
-    qDebug() <<"red"<< red;
+    //qDebug() <<"red"<< red;
 
 }
 
@@ -101,7 +102,7 @@ void MainWindow::KolonaSet(){
     QSpinBox *kolonaBox=qobject_cast<QSpinBox*>(sender());
     kolona=kolonaBox->value();
     Iscrtaj();
-    qDebug() << kolona;
+    //qDebug() << kolona;
 }
 
 
@@ -134,7 +135,7 @@ void MainWindow::Iscrtaj(){
     }}
     //namesta default start i end ako ne postoje
     //ili ako su postavljeni na red/kolonu koja ne postoji
-    qDebug()<<"start "<<start[0]<<" "<<start[1];
+    //qDebug()<<"start "<<start[0]<<" "<<start[1];
      if(start[0]==-1)SetStart(red/2,kolona/4);
      if(start[0]>=red-1)SetStart(red-1,start[1]);
      if(start[1]>=kolona-1)SetStart(start[0],kolona-1);
@@ -156,13 +157,18 @@ void MainWindow::SetStart(int i, int j){
         button[start[0]][start[1]]->update();
     }
 
+    //provera da li se postavlja preko cilja ili prepreke
 
+    if(end[0]==i && end[1]==j){
+        end[0]=-1; end[1]=-1;
+    }
 
-    QPalette pal = button[i][j]->palette();
-    pal.setColor(QPalette::Button, QColor(Qt::green));
-    button[i][j]->setAutoFillBackground(true);
-    button[i][j]->setPalette(pal);
-    button[i][j]->update();
+    int indeks=prepreke.indexOf(i*100+j);
+    if(indeks!=-1){
+        prepreke.remove(indeks);
+    }
+
+    Paint(i,j,Qt::green);
 
     start[0]=i;
     start[1]=j;
@@ -178,11 +184,17 @@ void MainWindow::SetEnd(int i, int j){
         button[end[0]][end[1]]->update();
     }
 
-    QPalette pal = button[i][j]->palette();
-    pal.setColor(QPalette::Button, QColor(Qt::red));
-    button[i][j]->setAutoFillBackground(true);
-    button[i][j]->setPalette(pal);
-    button[i][j]->update();
+    //provera da li se postavlja preko starta ili prepreke
+
+    if(i==start[0] && j==start[1])
+    {start[0]=-1; start[1]=-1;}
+
+    int indeks=prepreke.indexOf(i*100+j);
+    if(indeks!=-1){
+        prepreke.remove(indeks);
+    }
+
+    Paint(i,j,Qt::red);
     end[0]=i;
     end[1]=j;
 }
@@ -198,16 +210,9 @@ void MainWindow::SetPrepreka(int i, int j){
     if(end[0]==i && end[1]==j){
         end[0]=-1; end[1]=-1;
     }
-
-
-    QPalette pal = button[i][j]->palette();
-    pal.setColor(QPalette::Button, QColor(Qt::black));
-    button[i][j]->setAutoFillBackground(true);
-    button[i][j]->setPalette(pal);
-    button[i][j]->update();
+    Paint(i,j,Qt::black);
     //globalni vektor prepreka oblika(100*red + kolona)
     prepreke.push_back(100*i+j);
-    //qDebug()<<"Start: "<<start[0]<<" "<<start[1]<<"\t Cilj: "<<end[0]<<" "<<end[1];
 }
 
 void MainWindow::Clear(){
@@ -221,6 +226,13 @@ void MainWindow::Clear(){
     }
     //cisti globalni vektor prepreka i vrsi ponovno iscrtavanje
     prepreke.clear();
+
+    //cisti trenutni path
+    for(auto a: path){
+        QPalette tmp = this->style()->standardPalette();
+        button[a/100][a%100]->setPalette(tmp);
+        button[a/100][a%100]->update();
+    }
 
     //vrati start i end na default
     SetStart(red/2,kolona/4);
@@ -265,7 +277,39 @@ void MainWindow::onRightClicked()
 void MainWindow::StartPressed(){
     //sakupi sve podatke
     std::sort(prepreke.begin(),prepreke.end());
-    qDebug() << "Pritisnut start";
-    qDebug()<<"Prepreke"<<prepreke;
+    QComboBox *alg= MainWindow::findChild<QComboBox*>("selectBox");
+
+
+    qDebug() << "Pritisnut start, algoritam: "<<alg->currentText();
+    qDebug()<<"Start: "<<start[0]<<" "<<start[1];
+    qDebug()<<"Cilj: "<<end[0]<<" "<<end[1];
+    qDebug()<<"Prepreke: ";
+    for(auto i:prepreke)
+    qDebug()<<i/100<<" "<<i%100;
+
     //proveri koji je algoritam i pozovi ga
+
+    if(alg->currentIndex()==0){
+        Algoritmi objekat= Algoritmi(start, end, red,  kolona, prepreke);
+        path=objekat.DFS(start[0]*100+start[1],end[0]*100+end[1]);
+        ShowPath(path);
+        qDebug()<<path;
+
+    }
+}
+
+void MainWindow::ShowPath(QVector<int> put){
+    for(int x=1;x<put.size()-1;x++){
+        int i=put[x]/100;
+        int j=put[x]%100;
+        Paint(i,j,Qt::yellow);
+    }
+}
+
+void MainWindow::Paint(int i,int j,QColor boja){
+    QPalette pal = button[i][j]->palette();
+    pal.setColor(QPalette::Button, boja);
+    button[i][j]->setAutoFillBackground(true);
+    button[i][j]->setPalette(pal);
+    button[i][j]->update();
 }

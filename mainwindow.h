@@ -27,6 +27,9 @@ private:
     void SetStart(int i,int j);             //postavljanje starta u obliku (red,kolona)
     void SetEnd(int i,int j);               //postavljanje cilja u obliku (red,kolona)
     void SetPrepreka(int i,int j);          //postavljanje prepreke u obliku(red,kolona)
+    void ShowPath(QVector<int> put);        //ofarbaj put
+    QVector<int> path;                      //put prethodnog algoritma
+    void Paint(int i,int j,QColor boja);    //oboji dugme(red,kolona) u boju
 
 private slots:
    // void NumChanged();
