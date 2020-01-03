@@ -316,6 +316,7 @@ void MainWindow::StartPressed(){
     if(alg->currentIndex()==1){
        path=objekat.BFS(start[0]*100+start[1],end[0]*100+end[1]);
        ShowPath(path);
+       qDebug()<<path;
     }
 }
 

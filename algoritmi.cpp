@@ -101,7 +101,7 @@ QVector<int> Algoritmi::getNeighbors(int n){
 
 QVector<int> Algoritmi::DFS(int start, int end){
     QStack<int> *path = new QStack<int>();
-
+    visited=QVector<int>(2036,1);
     // Inicijalizacija skupa oznacenih cvorova
     // na prazan skup
     QVector<int> visited;
@@ -153,21 +153,21 @@ QVector<int> Algoritmi::DFS(int start, int end){
 QVector<int> Algoritmi::BFS(int start, int end){
 
     QStack<int> *path = new QStack<int>();
-
+    visited=QVector<int>(2036,0);
     // Pomocni red
     QQueue<int> queue =  QQueue<int>();
 
     // Inicijalizacija skupa oznacenih cvorova
     // na prazan skup
-    QVector<int> visited;
+
 
     // Mapa direktnih predaka cvorova nadjenih prilikom obilaska grafa
-    QVector<int> parent;
+    QVector<int> parent = QVector<int>(2036,0);
 
     // Dodajemo pocetni cvor u listu
     queue.push_back(start);
-    parent.push_back(start);
-    visited.push_back(start);
+    parent[start]=start;
+    visited[start]=1;
 
     // Sve dok red putanja nije prazna
     while(!queue.empty()) {
@@ -180,17 +180,16 @@ QVector<int> Algoritmi::BFS(int start, int end){
         if(n==end) {
             while (parent[n] != n) {
                 path->push_back(n);
-                int i = parent.indexOf(n);
-                n = parent[i];
+                n = parent[n];
             }
             path->push_back(start);
             return *path;
         }
 
         for(int m : getNeighbors(n)){
-            if(parent.indexOf(m)==-1){
+            if(visited[m]==0){
                 parent[m]=n;
-                visited.push_back(m);
+                visited[m]=1;
                 queue.enqueue(m);
             }
         }
