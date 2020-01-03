@@ -157,10 +157,6 @@ QVector<int> Algoritmi::BFS(int start, int end){
     // Pomocni red
     QQueue<int> queue =  QQueue<int>();
 
-    // Inicijalizacija skupa oznacenih cvorova
-    // na prazan skup
-
-
     // Mapa direktnih predaka cvorova nadjenih prilikom obilaska grafa
     QVector<int> parent = QVector<int>(2036,0);
 
@@ -185,7 +181,8 @@ QVector<int> Algoritmi::BFS(int start, int end){
             path->push_back(start);
             return *path;
         }
-
+        // Ako nije dodaj neposecene susede u red
+        // i postavi n kao roditelja
         for(int m : getNeighbors(n)){
             if(visited[m]==0){
                 parent[m]=n;
