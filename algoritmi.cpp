@@ -146,8 +146,8 @@ QVector<int> Algoritmi::DFS(int start, int end){
     // ako je petlja zavrsena put nije pronadjen,
     // izvesti da trazeni put ne postoji.
     qDebug()<<"Trazeni put ne postoji";
-    QVector<int> nista;
-    return nista;
+    QVector<int> *nista=new QVector<int>();
+    return *nista;
 }
 
 QVector<int> Algoritmi::BFS(int start, int end){
@@ -195,9 +195,10 @@ QVector<int> Algoritmi::BFS(int start, int end){
     }
     // ako je petlja zavrsena put nije pronadjen,
     // izvesti da trazeni put ne postoji.
+
     qDebug()<<"Trazeni put ne postoji";
-    QVector<int> nista;
-    return nista;
+    QVector<int> *nista=new QVector<int>();
+    return *nista;
 }
 
 QVector<int> Algoritmi::Astar(int start,int end){

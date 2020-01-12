@@ -318,10 +318,11 @@ void MainWindow::StartPressed(){
         path=objekat->DFS(start[0]*100+start[1],end[0]*100+end[1]);
         //ShowPath(path);
         put=path;
-        std::reverse(put.begin(), put.end());
+        if(!put.isEmpty()){
         put.pop_front();
         put.pop_back();
-        timer->start(200);
+        std::reverse(put.begin(), put.end());
+        timer->start(200);}
         qDebug()<<path;
 
     }
@@ -331,9 +332,10 @@ void MainWindow::StartPressed(){
        //ShowPath(path);
        //prikazi animiran put
        put=path;
+       if(!put.isEmpty()){
        put.pop_front();
        put.pop_back();
-       timer->start(200);
+       timer->start(200);}
        qDebug()<<path;
     }
 }
