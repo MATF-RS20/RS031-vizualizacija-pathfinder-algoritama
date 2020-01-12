@@ -41,5 +41,6 @@ private slots:
     void Iscrtaj();                         //iscrtavanje grid mreze nakon promene
     void Clear();                           //vrati na pocetno
     void onRightClicked();                  //ako se button pritisne desnim klikom onda clear taj button
+    void onMiddleClicked();                 //promeni odabir za iscrtavanje klikom na tockic
 };
 #endif // MAINWINDOW_H

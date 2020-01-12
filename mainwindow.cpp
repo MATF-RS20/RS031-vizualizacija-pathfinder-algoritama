@@ -62,6 +62,7 @@ void MainWindow::Matrica(){
                     connect(button[i][j],SIGNAL(released()),
                             this,SLOT(ButtonPressed()));
                     connect(button[i][j], SIGNAL(rightClicked()), this, SLOT(onRightClicked()));
+                    connect(button[i][j], SIGNAL(middleClicked()), this, SLOT(onMiddleClicked()));
             }
         }
 
@@ -334,4 +335,24 @@ void MainWindow::Paint(int i,int j,QColor boja){
     button[i][j]->setAutoFillBackground(true);
     button[i][j]->setPalette(pal);
     button[i][j]->update();
+}
+
+void MainWindow::onMiddleClicked(){
+    QRadioButton *pocetni= MainWindow::findChild<QRadioButton*>("rPocetni");
+    QRadioButton *krajnji= MainWindow::findChild<QRadioButton*>("rKrajnji");
+    QRadioButton *prepreka= MainWindow::findChild<QRadioButton*>("rPrepreka");
+
+    if(pocetni->isChecked()){
+        pocetni->setChecked(false);
+        krajnji->setChecked(true);
+    }
+    else if(krajnji->isChecked()){
+        krajnji->setChecked(false);
+        prepreka->setChecked(true);
+    }
+    else {
+        prepreka->setChecked(false);
+        pocetni->setChecked(true);
+    }
+
 }
