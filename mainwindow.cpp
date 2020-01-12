@@ -39,11 +39,17 @@ MainWindow::MainWindow(QWidget *parent)
     QPushButton *start=MainWindow::findChild<QPushButton*>("btnStart");
     connect(start,SIGNAL(released()),
             this,SLOT(StartPressed()));
+
+    //povezi timer za animaciju
+    timer= new QTimer(this);
+    connect(timer,SIGNAL(timeout()),this,SLOT(Animiraj()));
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete timer;
 }
 
 void MainWindow::Matrica(){
@@ -223,6 +229,7 @@ void MainWindow::SetPrepreka(int i, int j){
 void MainWindow::Clear(){
 
  // qDebug()<<prepreke;
+    timer->stop();
     //cisti boje prepreka na grid mrezi
     for(auto a: prepreke){
         QPalette tmp = this->style()->standardPalette();
@@ -292,7 +299,7 @@ void MainWindow::StartPressed(){
     qDebug()<<"Prepreke: ";
     for(auto i:prepreke)
     qDebug()<<i/100<<" "<<i%100;
-    Algoritmi objekat= Algoritmi(start, end, red,  kolona, prepreke);
+    Algoritmi *objekat=new Algoritmi(start, end, red,  kolona, prepreke);
 
     //ako vec postoji path potrebno ga je ocistiti
     //bez prvog i poslednjeg elementa
@@ -308,15 +315,25 @@ void MainWindow::StartPressed(){
 
     if(alg->currentIndex()==0){
 
-        path=objekat.DFS(start[0]*100+start[1],end[0]*100+end[1]);
-        ShowPath(path);
+        path=objekat->DFS(start[0]*100+start[1],end[0]*100+end[1]);
+        //ShowPath(path);
+        put=path;
+        std::reverse(put.begin(), put.end());
+        put.pop_front();
+        put.pop_back();
+        timer->start(200);
         qDebug()<<path;
 
     }
 
     if(alg->currentIndex()==1){
-       path=objekat.BFS(start[0]*100+start[1],end[0]*100+end[1]);
-       ShowPath(path);
+       path=objekat->BFS(start[0]*100+start[1],end[0]*100+end[1]);
+       //ShowPath(path);
+       //prikazi animiran put
+       put=path;
+       put.pop_front();
+       put.pop_back();
+       timer->start(200);
        qDebug()<<path;
     }
 }
@@ -335,6 +352,17 @@ void MainWindow::Paint(int i,int j,QColor boja){
     button[i][j]->setAutoFillBackground(true);
     button[i][j]->setPalette(pal);
     button[i][j]->update();
+}
+
+void MainWindow::Animiraj()
+{
+
+    if(!put.isEmpty()){
+        int i=put.last()/100;
+        int j=put.last()%100;
+        Paint(i,j,Qt::blue);
+        put.pop_back();
+    }
 }
 
 void MainWindow::onMiddleClicked(){

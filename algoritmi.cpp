@@ -1,6 +1,5 @@
 #include "algoritmi.h"
 #include "mainwindow.h"
-
 #include <QQueue>
 
 
@@ -10,9 +9,10 @@ Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int
     start[1]=tstart[1];
     end[0]=tend[0];
     end[1]=tend[1];
+    //povezi timer za animaciju
+    korak= new QTimer();
+    connect(korak,SIGNAL(timeout()),this,SLOT(Animiraj()));
 }
-
-
 
 bool Algoritmi::outOfBounds(int x){
     int i=x/100;
@@ -214,3 +214,9 @@ QVector<int> Algoritmi::Dijkstra(int start,int end){
     return *path;
 
 }
+
+void Algoritmi::Animiraj()
+{
+
+}
+
