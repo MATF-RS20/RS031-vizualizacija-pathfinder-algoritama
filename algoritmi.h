@@ -21,19 +21,19 @@ public:
     QTimer *korak;
 
 private:
-int red=0,kolona=0;                     //promenljiva koja cuva velicinu reda i kolone
-int start[2]={-1,-1},end[2]={-1,-1};    //koordinate starta i cilja
-QVector<int> prepreke;                  //vektor koji cuva pozicije prepreka oblika 100*red + kolona
+int red=0,kolona=0;                      //promenljiva koja cuva velicinu reda i kolone
+int start[2]={-1,-1},end[2]={-1,-1};     //koordinate starta i cilja
+QVector<int> prepreke;                   //vektor koji cuva pozicije prepreka oblika 36*red + kolona
 bool outOfBounds(int x);                 //provera da li je polje u matrici
 QVector<int> visited;
-QVector<QVector<int>> redovi;          //Vektor koji prica do kog je reda stigao algoritam
+QVector<QVector<int>> redovi;            //Vektor koji prica do kog je reda stigao algoritam
 int br_reda=0;
-void Paint(int i,int j,QColor boja);    //oboji dugme
-QRightClickButton *button[20][35];      //niz koji cuva buttone u obliku matrice
-int Heuristika(int x);                          //heuristika chebyshev
+void Paint(int i,int j,QColor boja);     //oboji dugme
+QRightClickButton *button[20][35];       //niz koji cuva buttone u obliku matrice
+int Heuristika(int x);                   //heuristika chebyshev
 
 private slots:
-    void Animiraj();                    //Animacija pojedinacnog koraka
+    void Animiraj();                     //Animacija pojedinacnog koraka
 };
 
 #endif // ALGORITMI_H

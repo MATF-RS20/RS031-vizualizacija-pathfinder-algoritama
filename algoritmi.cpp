@@ -22,8 +22,8 @@ Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int
 }
 
 bool Algoritmi::outOfBounds(int x){
-    int i=x/100;
-    int j=x%100;
+    int i=x/36;
+    int j=x%36;
 
     if(i>=0 && i<red && j<kolona && j>=0) {
         return true;
@@ -36,71 +36,71 @@ bool Algoritmi::outOfBounds(int x){
 QVector<int> Algoritmi::getNeighbors(int n){
     QVector<int> *susedi= new QVector<int>();
 
-    int i=n/100;
-    int j=n%100;
+    int i=n/36;
+    int j=n%36;
     int indeks;
 
     //desno
-    if(outOfBounds((i)*100+(j+1))){
-         indeks=prepreke.indexOf((i)*100+(j+1));
+    if(outOfBounds((i)*36+(j+1))){
+         indeks=prepreke.indexOf((i)*36+(j+1));
         if(indeks==-1) {
-            susedi->push_back((i)*100+(j+1));
+            susedi->push_back((i)*36+(j+1));
         }
     }
     //dole-desno
-    if(outOfBounds((i+1)*100+(j+1))){
-        indeks=prepreke.indexOf((i+1)*100+(j+1));
+    if(outOfBounds((i+1)*36+(j+1))){
+        indeks=prepreke.indexOf((i+1)*36+(j+1));
         if(indeks==-1) {
-            susedi->push_back((i+1)*100+(j+1));
+            susedi->push_back((i+1)*36+(j+1));
         }
     }
     //gore-desno
-    if(outOfBounds((i-1)*100+(j+1))){
-        indeks=prepreke.indexOf((i-1)*100+(j+1));
+    if(outOfBounds((i-1)*36+(j+1))){
+        indeks=prepreke.indexOf((i-1)*36+(j+1));
         if(indeks==-1) {
-            susedi->push_back((i-1)*100+(j+1));
+            susedi->push_back((i-1)*36+(j+1));
         }
     }
     //dole
-    if(outOfBounds((i+1)*100+(j))){
-        indeks=prepreke.indexOf((i+1)*100+(j));
+    if(outOfBounds((i+1)*36+(j))){
+        indeks=prepreke.indexOf((i+1)*36+(j));
         if(indeks==-1) {
-            susedi->push_back((i+1)*100+(j));
+            susedi->push_back((i+1)*36+(j));
         }
     }
 
 
     //gore
-    if(outOfBounds((i-1)*100+(j))){
-        indeks=prepreke.indexOf((i-1)*100+(j));
+    if(outOfBounds((i-1)*36+(j))){
+        indeks=prepreke.indexOf((i-1)*36+(j));
         if(indeks==-1) {
-            susedi->push_back((i-1)*100+(j));
+            susedi->push_back((i-1)*36+(j));
         }
     }
 
 
     //levo
-    if(outOfBounds((i)*100+(j-1))){
-        indeks=prepreke.indexOf((i)*100+(j-1));
+    if(outOfBounds((i)*36+(j-1))){
+        indeks=prepreke.indexOf((i)*36+(j-1));
         if(indeks==-1) {
-            susedi->push_back((i)*100+(j-1));
+            susedi->push_back((i)*36+(j-1));
         }
     }
 
     //gore-levo
-    //indeks=prepreke.indexOf((i-1)*100+(j-1));
-    if(outOfBounds(n-101)){
-        indeks=prepreke.indexOf(n-101);
+    //indeks=prepreke.indexOf((i-1)*36+(j-1));
+    if(outOfBounds((i-1)*36+(j-1))){
+        indeks=prepreke.indexOf((i-1)*36+(j-1));
         if(indeks==-1){
-            susedi->push_back(n-101);
+            susedi->push_back((i-1)*36+(j-1));
         }
     }
 
     //dole-levo
-    if(outOfBounds((i+1)*100+(j-1))){
-        indeks=prepreke.indexOf((i+1)*100+(j-1));
+    if(outOfBounds((i+1)*36+(j-1))){
+        indeks=prepreke.indexOf((i+1)*36+(j-1));
         if(indeks==-1) {
-            susedi->push_back((i+1)*100+(j-1));
+            susedi->push_back((i+1)*36+(j-1));
         }
     }
     return *susedi;
@@ -108,7 +108,7 @@ QVector<int> Algoritmi::getNeighbors(int n){
 
 QVector<int> Algoritmi::DFS(int start, int end){
     QStack<int> *path = new QStack<int>();
-    visited=QVector<int>(2036,1);
+    visited=QVector<int>(21*36,1);
     // Inicijalizacija skupa oznacenih cvorova
     // na prazan skup
     QVector<int> visited;
@@ -167,12 +167,12 @@ QVector<int> Algoritmi::DFS(int start, int end){
 QVector<int> Algoritmi::BFS(int start, int end){
 
     QStack<int> *path = new QStack<int>();
-    visited=QVector<int>(2036,0);
+    visited=QVector<int>(21*36,0);
     // Pomocni red
     QQueue<int> queue =  QQueue<int>();
 
     // Mapa direktnih predaka cvorova nadjenih prilikom obilaska grafa
-    QVector<int> parent = QVector<int>(2036,0);
+    QVector<int> parent = QVector<int>(21*36,0);
 
     // Dodajemo pocetni cvor u listu
     queue.push_back(start);
@@ -231,13 +231,13 @@ QVector<int> Algoritmi::Astar(int start,int end){
 
             // g sadrzi tekuce udaljenosti od polaznog cvora (start) do ostalih cvorova, ukoliko se cvor ne nalazi
             // u mapi, podrazumevana vrednost udaljenosti je beskonacno
-            QVector<int> g(2036,999);
+            QVector<int> g(21*36,999);
 
             // Udaljenost polaznog cvora od samog sebe je 0
             g[start] = 0;
 
             // Mapa parents cuva roditelje cvorova
-            QVector<int> parent(2036,999);
+            QVector<int> parent(21*36,999);
             parent[start] = start;
             int n = 0;
             // Izvrsavaj dok god ima elemenata u otvorenoj listi
@@ -319,8 +319,8 @@ QVector<int> Algoritmi::Astar(int start,int end){
 void Algoritmi::Animiraj()
 {   if(!redovi.isEmpty()){
     while(!redovi[0].isEmpty()){
-         int i=redovi[0].first()/100;
-         int j=redovi[0].first()%100;
+         int i=redovi[0].first()/36;
+         int j=redovi[0].first()%36;
          if(i==end[0] && j==end[1]){redovi.clear();redovi.push_back(QVector<int>(0));break;}
         Paint(i,j,Qt::yellow);
         redovi[0].pop_front();
@@ -341,7 +341,7 @@ void Algoritmi::Paint(int i,int j,QColor boja){
 }
 
 int Algoritmi::Heuristika(int x){
-    int a = abs(x/100 - end[0]);
-    int b = abs(x%100 - end[1]);
+    int a = abs(x/36 - end[0]);
+    int b = abs(x%36 - end[1]);
     return a>b? a:b;
 }

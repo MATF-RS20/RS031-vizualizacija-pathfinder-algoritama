@@ -177,7 +177,7 @@ void MainWindow::SetStart(int i, int j){
         end[0]=-1; end[1]=-1;
     }
 
-    int indeks=prepreke.indexOf(i*100+j);
+    int indeks=prepreke.indexOf(i*36+j);
     if(indeks!=-1){
         prepreke.remove(indeks);
     }
@@ -204,7 +204,7 @@ void MainWindow::SetEnd(int i, int j){
     if(i==start[0] && j==start[1])
     {start[0]=-1; start[1]=-1;}
 
-    int indeks=prepreke.indexOf(i*100+j);
+    int indeks=prepreke.indexOf(i*36+j);
     if(indeks!=-1){
         prepreke.remove(indeks);
     }
@@ -227,12 +227,12 @@ void MainWindow::SetPrepreka(int i, int j){
         end[0]=-1; end[1]=-1;
     }
     //provera da li se prepreka postavlja na path
-    int indeks=path.indexOf(i*100+j);
+    int indeks=path.indexOf(i*36+j);
     if(indeks!=-1)path.remove(indeks);
 
     Paint(i,j,Qt::black);
-    //globalni vektor prepreka oblika(100*red + kolona)
-    prepreke.push_back(100*i+j);
+    //globalni vektor prepreka oblika(36*red + kolona)
+    prepreke.push_back(36*i+j);
     PromeniSoftClear();
 }
 
@@ -253,8 +253,8 @@ void MainWindow::Clear(){
     /*
     for(auto a: prepreke){
         QPalette tmp = this->style()->standardPalette();
-        button[a/100][a%100]->setPalette(tmp);
-        button[a/100][a%100]->update();
+        button[a/36][a%36]->setPalette(tmp);
+        button[a/36][a%36]->update();
     }*/
 
 
@@ -264,8 +264,8 @@ void MainWindow::Clear(){
     //cisti trenutni path
    /* for(auto a: path){
         QPalette tmp = this->style()->standardPalette();
-        button[a/100][a%100]->setPalette(tmp);
-        button[a/100][a%100]->update();
+        button[a/36][a%36]->setPalette(tmp);
+        button[a/36][a%36]->update();
     } */
     path.clear();
 
@@ -283,6 +283,7 @@ void MainWindow::Clear(){
     SetStart(red/2,kolona/4);
     SetEnd(red/2,3*kolona/4);
     Iscrtaj();
+    PromeniSoftClear();
  // qDebug()<<prepreke;
 }}
 
@@ -297,7 +298,7 @@ void MainWindow::onRightClicked()
 
     //provera da li je polje prepreka
     // ako jeste ukloni ga iz vektora prepreka
-    int indeks=prepreke.indexOf(i*100+j);
+    int indeks=prepreke.indexOf(i*36+j);
     if(indeks!=-1){
         prepreke.remove(indeks);
     }
@@ -331,7 +332,7 @@ void MainWindow::StartPressed(){
     qDebug()<<"Cilj: "<<end[0]<<" "<<end[1];
     qDebug()<<"Prepreke: ";
     for(auto i:prepreke)
-    qDebug()<<i/100<<" "<<i%100;
+    qDebug()<<i/36<<" "<<i%36;
 
 
     if(start[0]==-1 || start[1]==-1){
@@ -358,7 +359,7 @@ void MainWindow::StartPressed(){
     objekat=new Algoritmi(start, end, red,  kolona, prepreke, button);
     if(alg->currentIndex()==0){
 
-        path=objekat->DFS(start[0]*100+start[1],end[0]*100+end[1]);
+        path=objekat->DFS(start[0]*36+start[1],end[0]*36+end[1]);
         //ShowPath(path);
         put=path;
         timer->start(200);
@@ -374,7 +375,7 @@ void MainWindow::StartPressed(){
 
     if(alg->currentIndex()==1){
 
-       path=objekat->BFS(start[0]*100+start[1],end[0]*100+end[1]);
+       path=objekat->BFS(start[0]*36+start[1],end[0]*36+end[1]);
        //ShowPath(path);
        put=path;
        //prikazi animiran put
@@ -388,7 +389,7 @@ void MainWindow::StartPressed(){
     }
     if(alg->currentIndex()==2){
 
-       path=objekat->Dijkstra(start[0]*100+start[1],end[0]*100+end[1]);
+       path=objekat->Dijkstra(start[0]*36+start[1],end[0]*36+end[1]);
        //ShowPath(path);
        put=path;
        //prikazi animiran put
@@ -404,7 +405,7 @@ void MainWindow::StartPressed(){
 
     if(alg->currentIndex()==3){
 
-       path=objekat->Astar(start[0]*100+start[1],end[0]*100+end[1]);
+       path=objekat->Astar(start[0]*36+start[1],end[0]*36+end[1]);
        //ShowPath(path);
        put=path;
        //prikazi animiran put
@@ -421,8 +422,8 @@ void MainWindow::StartPressed(){
 
 void MainWindow::ShowPath(QVector<int> put){
     for(int x=1;x<put.size()-1;x++){
-        int i=put[x]/100;
-        int j=put[x]%100;
+        int i=put[x]/36;
+        int j=put[x]%36;
         Paint(i,j,Qt::yellow);
     }
 }
@@ -439,8 +440,8 @@ void MainWindow::Animiraj()
 {
     if(!objekat->korak->isActive()){
      if(!put.isEmpty()){
-          int i=put.last()/100;
-          int j=put.last()%100;
+          int i=put.last()/36;
+          int j=put.last()%36;
           Paint(i,j,Qt::blue);
          put.pop_back();
       }
@@ -495,7 +496,7 @@ void MainWindow::SoftClear(){
     SetStart(start[0],start[1]);
     SetEnd(end[0],end[1]);
     for(auto x: prepreke){
-        Paint(x/100,x%100,Qt::black);
+        Paint(x/36,x%36,Qt::black);
     }
 
 }
