@@ -38,7 +38,7 @@ private:
     QTimer *timer;
     Algoritmi *objekat;
     bool pronadjen_put=false;                           //indikator pronadjenog puta
-
+    void SoftClear();                                   //zadrzi prepreke i pocetno i krajnje polje
 
 private slots:
 

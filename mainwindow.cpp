@@ -232,7 +232,7 @@ void MainWindow::Clear(){
 
  // qDebug()<<prepreke;
     timer->stop();
-    if(objekat!=NULL)objekat->korak->stop();
+    if(objekat!=nullptr)objekat->korak->stop();
 
     //cisti boje prepreka na grid mrezi
     /*
@@ -305,6 +305,9 @@ void MainWindow::onRightClicked()
 
 
 void MainWindow::StartPressed(){
+    //soft ciscenje
+    SoftClear();
+
     //sakupi sve podatke
     std::sort(prepreke.begin(),prepreke.end());
     QComboBox *alg= MainWindow::findChild<QComboBox*>("selectBox");
@@ -318,16 +321,7 @@ void MainWindow::StartPressed(){
     qDebug()<<i/100<<" "<<i%100;
     objekat=new Algoritmi(start, end, red,  kolona, prepreke, button);
 
-    //ako vec postoji path potrebno ga je ocistiti
-    //bez prvog i poslednjeg elementa
-    if(!path.isEmpty()){
-        for(int a=1;a<path.size()-1;a++){
-            QPalette tmp = this->style()->standardPalette();
-            button[path[a]/100][path[a]%100]->setPalette(tmp);
-            button[path[a]/100][path[a]%100]->update();
-        }
-        path.clear();
-    }
+
     //postavi indikator
     pronadjen_put=false;
 
@@ -419,6 +413,28 @@ void MainWindow::onMiddleClicked(){
     else {
         prepreka->setChecked(false);
         pocetni->setChecked(true);
+    }
+
+}
+
+void MainWindow::SoftClear(){
+    timer->stop();
+    if(objekat!=nullptr)objekat->korak->stop();
+    path.clear();
+
+    QPalette tmp = this->style()->standardPalette();
+    for(int i=0;i<20;i++)
+    {
+    for(int j=0;j<35;j++)
+    {
+        button[i][j]->setPalette(tmp);
+        button[i][j]->update();
+            }
+        }
+    SetStart(start[0],start[1]);
+    SetEnd(end[0],end[1]);
+    for(auto x: prepreke){
+        Paint(x/100,x%100,Qt::black);
     }
 
 }
