@@ -99,6 +99,7 @@ void MainWindow::RedSet(){
     QSpinBox *redBox=qobject_cast<QSpinBox*>(sender());
     red=redBox->value();
     Iscrtaj();
+    Clear();
     //qDebug() <<"red"<< red;
 
 }
@@ -109,6 +110,7 @@ void MainWindow::KolonaSet(){
     QSpinBox *kolonaBox=qobject_cast<QSpinBox*>(sender());
     kolona=kolonaBox->value();
     Iscrtaj();
+    Clear();
     //qDebug() << kolona;
 }
 
@@ -230,22 +232,37 @@ void MainWindow::Clear(){
 
  // qDebug()<<prepreke;
     timer->stop();
+    if(objekat!=NULL)objekat->korak->stop();
+
     //cisti boje prepreka na grid mrezi
+    /*
     for(auto a: prepreke){
         QPalette tmp = this->style()->standardPalette();
         button[a/100][a%100]->setPalette(tmp);
         button[a/100][a%100]->update();
-    }
+    }*/
+
+
     //cisti globalni vektor prepreka i vrsi ponovno iscrtavanje
     prepreke.clear();
 
     //cisti trenutni path
-    for(auto a: path){
+   /* for(auto a: path){
         QPalette tmp = this->style()->standardPalette();
         button[a/100][a%100]->setPalette(tmp);
         button[a/100][a%100]->update();
-    }
+    } */
     path.clear();
+
+    QPalette tmp = this->style()->standardPalette();
+    for(int i=0;i<20;i++)
+    {
+    for(int j=0;j<35;j++)
+    {
+        button[i][j]->setPalette(tmp);
+        button[i][j]->update();
+            }
+        }
 
     //vrati start i end na default
     SetStart(red/2,kolona/4);
@@ -299,7 +316,7 @@ void MainWindow::StartPressed(){
     qDebug()<<"Prepreke: ";
     for(auto i:prepreke)
     qDebug()<<i/100<<" "<<i%100;
-    Algoritmi *objekat=new Algoritmi(start, end, red,  kolona, prepreke);
+    objekat=new Algoritmi(start, end, red,  kolona, prepreke, button);
 
     //ako vec postoji path potrebno ga je ocistiti
     //bez prvog i poslednjeg elementa
@@ -330,12 +347,13 @@ void MainWindow::StartPressed(){
     if(alg->currentIndex()==1){
        path=objekat->BFS(start[0]*100+start[1],end[0]*100+end[1]);
        //ShowPath(path);
-       //prikazi animiran put
        put=path;
+       //prikazi animiran put
        if(!put.isEmpty()){
        put.pop_front();
        put.pop_back();
        timer->start(200);}
+
        qDebug()<<path;
     }
 }
@@ -358,12 +376,13 @@ void MainWindow::Paint(int i,int j,QColor boja){
 
 void MainWindow::Animiraj()
 {
-
-    if(!put.isEmpty()){
-        int i=put.last()/100;
-        int j=put.last()%100;
-        Paint(i,j,Qt::blue);
-        put.pop_back();
+    if(!objekat->korak->isActive()){
+     if(!put.isEmpty()){
+          int i=put.last()/100;
+          int j=put.last()%100;
+          Paint(i,j,Qt::blue);
+         put.pop_back();
+      }
     }
 }
 

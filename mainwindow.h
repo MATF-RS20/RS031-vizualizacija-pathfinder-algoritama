@@ -8,7 +8,7 @@
 #include <qrightclickbutton.h>
 #include <QTimer>
 #include <QQueue>
-
+#include <algoritmi.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -20,10 +20,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QRightClickButton *button[20][35];                  //niz koji cuva buttone u obliku matrice
 
 private:
     Ui::MainWindow *ui;
-    QRightClickButton *button[20][35];                  //niz koji cuva buttone u obliku matrice
+    void Paint(int i,int j,QColor boja);                //oboji dugme(red,kolona) u boju
     int red=0,kolona=0;                                 //promenljiva koja cuva velicinu reda i kolone
     int start[2]={-1,-1},end[2]={-1,-1};                //koordinate starta i cilja
     QVector<int> prepreke;                              //vektor koji cuva pozicije prepreka oblika 100*red + kolona
@@ -32,8 +33,10 @@ private:
     void SetPrepreka(int i,int j);                      //postavljanje prepreke u obliku(red,kolona)
     void ShowPath(QVector<int> put);                    //ofarbaj put
     QVector<int> path,put;                              //put prethodnog algoritma
-    void Paint(int i,int j,QColor boja);                //oboji dugme(red,kolona) u boju
+    QVector<QVector<int>> path1;
     QTimer *timer;
+    Algoritmi *objekat;
+
 
 private slots:
 

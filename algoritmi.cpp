@@ -2,8 +2,7 @@
 #include "mainwindow.h"
 #include <QQueue>
 
-
-Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int> tprepreke)
+Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int> tprepreke, QRightClickButton *butto[20][35])
     : red(tred),kolona(tkolona),prepreke(tprepreke) {
     start[0]=tstart[0];
     start[1]=tstart[1];
@@ -12,6 +11,15 @@ Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int
     //povezi timer za animaciju
     korak= new QTimer();
     connect(korak,SIGNAL(timeout()),this,SLOT(Animiraj()));
+
+    for(int i=0;i<20;i++)
+    {
+    for(int j=0;j<35;j++)
+    {
+                    button[i][j] = butto[i][j];
+            }
+        }
+
 }
 
 bool Algoritmi::outOfBounds(int x){
@@ -135,6 +143,13 @@ QVector<int> Algoritmi::DFS(int start, int end){
                 path->push(m);
                 visited.push_back(m);
                 has_unvisited = true;
+
+                //deo za animaciju
+                QVector<int> krk;
+                krk.push_back(m);
+                redovi.push_back(krk);
+                korak->start(50);
+
                 break;
             }
         }
@@ -168,6 +183,7 @@ QVector<int> Algoritmi::BFS(int start, int end){
     // Sve dok red putanja nije prazna
     while(!queue.empty()) {
 
+        QVector<int> krk;
         // Skidamo pocetni cvor sa pocetka reda
         int n = queue.front();
         queue.pop_front();
@@ -188,10 +204,10 @@ QVector<int> Algoritmi::BFS(int start, int end){
                 parent[m]=n;
                 visited[m]=1;
                 queue.enqueue(m);
+                krk.push_back(m);
             }
         }
-
-
+    if(!krk.isEmpty()){redovi.push_back(krk);korak->start(50);}
     }
     // ako je petlja zavrsena put nije pronadjen,
     // izvesti da trazeni put ne postoji.
@@ -217,7 +233,25 @@ QVector<int> Algoritmi::Dijkstra(int start,int end){
 }
 
 void Algoritmi::Animiraj()
-{
-
+{   if(!redovi.isEmpty()){
+    while(!redovi[0].isEmpty()){
+         int i=redovi[0].first()/100;
+         int j=redovi[0].first()%100;
+         if(i==end[0] && j==end[1]){redovi.clear();redovi.push_back(QVector<int>(0));break;}
+        Paint(i,j,Qt::yellow);
+        redovi[0].pop_front();
+     }
+    redovi.pop_front();
+}
+else{
+        korak->stop();
+    }
 }
 
+void Algoritmi::Paint(int i,int j,QColor boja){
+    QPalette pal = button[i][j]->palette();
+    pal.setColor(QPalette::Button, boja);
+    button[i][j]->setAutoFillBackground(true);
+    button[i][j]->setPalette(pal);
+    button[i][j]->update();
+}
