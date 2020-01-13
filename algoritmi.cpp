@@ -2,8 +2,8 @@
 #include "mainwindow.h"
 #include <QQueue>
 
-Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int> tprepreke, QRightClickButton *butto[20][35])
-    : red(tred),kolona(tkolona),prepreke(tprepreke) {
+Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int> tprepreke, QRightClickButton *butto[20][35], bool diag)
+    : red(tred),kolona(tkolona),prepreke(tprepreke),diagonalno(diag) {
     start[0]=tstart[0];
     start[1]=tstart[1];
     end[0]=tend[0];
@@ -132,9 +132,11 @@ QVector<int> Algoritmi::DFS(int start, int end){
 
         // Indikator da li cvor n ima neobidjenih suseda
         bool has_unvisited = false;
-
+        QVector<int> komsije;
+        if(diagonalno) komsije=getNeighbors(n);
+        else komsije=getNeighbors2(n);
         // Ako n IMA potomaka koji nisu poseceni
-        for (int m:getNeighbors(n)){
+        for (int m:komsije){
             if (visited.indexOf(m)==-1) {
                 //(m not in visited)
                 // Izaberi prvog takvog potomka m
@@ -198,7 +200,11 @@ QVector<int> Algoritmi::BFS(int start, int end){
         }
         // Ako nije dodaj neposecene susede u red
         // i postavi n kao roditelja
-        for(int m : getNeighbors(n)){
+        QVector<int> komsije;
+        if(diagonalno) komsije=getNeighbors(n);
+        else komsije=getNeighbors2(n);
+
+        for(int m : komsije){
             if(visited[m]==0){
                 parent[m]=n;
                 visited[m]=1;
@@ -217,17 +223,18 @@ QVector<int> Algoritmi::BFS(int start, int end){
 }
 
 QVector<int> Algoritmi::Dijkstra(int start, int end){
-    QVector<int> *path = new QVector<int>();
-    path->push_back(start);
-    path->push_back(end);
-    return *path;
+
+    return Astar(start,end,0);
 }
 
-QVector<int> Algoritmi::Astar(int start,int end){
+QVector<int> Algoritmi::Astar(int start,int end,int tipHeuristike){
             // Zatvorena lista je inicijalno prazna, a otvorena lista sadrzi samo polazni cvor
             QVector<int> open_list;
             open_list.push_back(start);
             QVector<int> closed_list ;
+
+            //ako nije dozvoljeno diagonalno heuristika je manhattan
+            if(diagonalno==false && tipHeuristike==1) tipHeuristike=2;
 
             // g sadrzi tekuce udaljenosti od polaznog cvora (start) do ostalih cvorova, ukoliko se cvor ne nalazi
             // u mapi, podrazumevana vrednost udaljenosti je beskonacno
@@ -246,7 +253,7 @@ QVector<int> Algoritmi::Astar(int start,int end){
                 QVector<int> krk;
                 n=0;
                 for(int v:open_list)
-                {if (n == 0 or g[v] + Heuristika(v) < g[n] +  Heuristika(n))
+                {if (n == 0 or g[v] + Heuristika(v,tipHeuristike) < g[n] +  Heuristika(n,tipHeuristike))
                         n = v;}
 
                 if (n == 0){
@@ -270,7 +277,11 @@ QVector<int> Algoritmi::Astar(int start,int end){
 
 
                 // Za svaki cvor m koji je direktno dostupan izn𝑛 uradi sledece:
-                for (int m:getNeighbors(n)){
+                QVector<int> komsije;
+                if(diagonalno) komsije=getNeighbors(n);
+                else komsije=getNeighbors2(n);
+
+                for (int m:komsije){
 
                     // Ako m nije ni u otvorenoj ni u zatvorenoj listi, dodaj ga u otvorenu listu
                     // i oznaci n kao njegovog roditelja.
@@ -340,8 +351,64 @@ void Algoritmi::Paint(int i,int j,QColor boja){
     button[i][j]->update();
 }
 
-int Algoritmi::Heuristika(int x){
+int Algoritmi::Heuristika(int x,int tip){
+    if(tip==0)return 0;
+
+    else if (tip==1){
     int a = abs(x/36 - end[0]);
     int b = abs(x%36 - end[1]);
-    return a>b? a:b;
+    return a>b? a:b;}
+
+    else {
+        return HeuristikaManhattan(x);
+    }
+}
+
+QVector<int> Algoritmi::getNeighbors2(int n){
+    QVector<int> *susedi= new QVector<int>();
+
+    int i=n/36;
+    int j=n%36;
+    int indeks;
+
+    //desno
+    if(outOfBounds((i)*36+(j+1))){
+         indeks=prepreke.indexOf((i)*36+(j+1));
+        if(indeks==-1) {
+            susedi->push_back((i)*36+(j+1));
+        }
+    }
+
+    //dole
+    if(outOfBounds((i+1)*36+(j))){
+        indeks=prepreke.indexOf((i+1)*36+(j));
+        if(indeks==-1) {
+            susedi->push_back((i+1)*36+(j));
+        }
+    }
+
+
+    //gore
+    if(outOfBounds((i-1)*36+(j))){
+        indeks=prepreke.indexOf((i-1)*36+(j));
+        if(indeks==-1) {
+            susedi->push_back((i-1)*36+(j));
+        }
+    }
+
+
+    //levo
+    if(outOfBounds((i)*36+(j-1))){
+        indeks=prepreke.indexOf((i)*36+(j-1));
+        if(indeks==-1) {
+            susedi->push_back((i)*36+(j-1));
+        }
+    }
+    return *susedi;
+}
+
+int Algoritmi::HeuristikaManhattan(int x){
+    int a = abs(x/36 - end[0]);
+    int b = abs(x%36 - end[1]);
+    return a+b;
 }

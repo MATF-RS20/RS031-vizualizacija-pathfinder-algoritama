@@ -49,6 +49,24 @@ MainWindow::MainWindow(QWidget *parent)
     softcleartimer->setSingleShot(true);
     connect(softcleartimer,SIGNAL(timeout()),this,SLOT(PromeniSoftClear()));
 
+    QRadioButton *pocetni= MainWindow::findChild<QRadioButton*>("rPocetni");
+    QPalette pal = pocetni->palette();
+    pal.setColor(QPalette::Button, Qt::green);
+    pocetni->setAutoFillBackground(false);
+    pocetni->setPalette(pal);
+    pocetni->update();
+    connect(pocetni,SIGNAL(clicked()),this,SLOT(RadioClicked()));
+
+    QRadioButton *krajnji= MainWindow::findChild<QRadioButton*>("rKrajnji");
+    pal = krajnji->palette();
+    pal.setColor(QPalette::Button, Qt::red);
+    krajnji->setAutoFillBackground(false);
+    krajnji->setPalette(pal);
+    krajnji->update();
+    connect(krajnji,SIGNAL(clicked()),this,SLOT(RadioClicked()));
+
+    QRadioButton *prepreka= MainWindow::findChild<QRadioButton*>("rPrepreka");
+    connect(prepreka,SIGNAL(clicked()),this,SLOT(RadioClicked()));
 }
 
 MainWindow::~MainWindow()
@@ -355,8 +373,13 @@ void MainWindow::StartPressed(){
     //postavi indikator
     pronadjen_put=false;
 
+    //provera da li je dozvoljeno diagonalno kretanje
+    QCheckBox *dg=MainWindow::findChild<QCheckBox*>("checkDiagonalno");
+    if(dg->isChecked()) allowDiagonal=true;
+    else allowDiagonal=false;
+
     //proveri koji je algoritam i pozovi ga
-    objekat=new Algoritmi(start, end, red,  kolona, prepreke, button);
+    objekat=new Algoritmi(start, end, red,  kolona, prepreke, button,allowDiagonal);
     if(alg->currentIndex()==0){
 
         path=objekat->DFS(start[0]*36+start[1],end[0]*36+end[1]);
@@ -398,14 +421,13 @@ void MainWindow::StartPressed(){
             pronadjen_put=true;
             put.pop_front();
             put.pop_back();
-            std::reverse(put.begin(), put.end());
             }
        qDebug()<<path;
     }
 
     if(alg->currentIndex()==3){
 
-       path=objekat->Astar(start[0]*36+start[1],end[0]*36+end[1]);
+       path=objekat->Astar(start[0]*36+start[1],end[0]*36+end[1],1);
        //ShowPath(path);
        put=path;
        //prikazi animiran put
@@ -466,15 +488,23 @@ void MainWindow::onMiddleClicked(){
 
     if(pocetni->isChecked()){
         pocetni->setChecked(false);
+        pocetni->setAutoFillBackground(false);
+        pocetni->update();
         krajnji->setChecked(true);
+        krajnji->setAutoFillBackground(true);
+        krajnji->update();
     }
     else if(krajnji->isChecked()){
         krajnji->setChecked(false);
+        krajnji->setAutoFillBackground(false);
+        krajnji->update();
         prepreka->setChecked(true);
     }
     else {
         prepreka->setChecked(false);
         pocetni->setChecked(true);
+        pocetni->setAutoFillBackground(true);
+        pocetni->update();
     }
 
 }
@@ -503,4 +533,24 @@ void MainWindow::SoftClear(){
 
 void MainWindow::PromeniSoftClear(){
     softclear=true;
+}
+
+void MainWindow::RadioClicked(){
+    QRadioButton *pocetni= MainWindow::findChild<QRadioButton*>("rPocetni");
+    QRadioButton *krajnji= MainWindow::findChild<QRadioButton*>("rKrajnji");
+
+    QRadioButton *tmp= qobject_cast<QRadioButton*>(sender());
+    if(tmp->text()=="pocetni"){
+        krajnji->setAutoFillBackground(false);
+        pocetni->setAutoFillBackground(true);
+    }
+
+    else if (tmp->text()=="krajnji"){
+        krajnji->setAutoFillBackground(true);
+        pocetni->setAutoFillBackground(false);
+    }
+    else{
+        krajnji->setAutoFillBackground(false);
+        pocetni->setAutoFillBackground(false);
+    }
 }

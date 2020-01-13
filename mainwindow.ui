@@ -118,6 +118,24 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item alignment="Qt::AlignBottom">
         <widget class="QRadioButton" name="rPocetni">
+         <property name="styleSheet">
+          <string notr="true">QRadioButton::indicator {
+    width:                  10px;
+    height:                 10px;
+    border-radius:          7px;
+}
+
+QRadioButton::indicator:checked {
+    background-color:       green;
+    border:                 2px solid white;
+}
+
+QRadioButton::indicator:unchecked {
+    background-color:       white;
+    border:                 2px solid white;
+}
+</string>
+         </property>
          <property name="text">
           <string>pocetni</string>
          </property>
@@ -128,6 +146,23 @@
        </item>
        <item alignment="Qt::AlignBottom">
         <widget class="QRadioButton" name="rKrajnji">
+         <property name="styleSheet">
+          <string notr="true">QRadioButton::indicator {
+    width:                  10px;
+    height:                 10px;
+    border-radius:          7px;
+}
+
+QRadioButton::indicator:checked {
+    background-color:       red;
+    border:                 2px solid white;
+}
+
+QRadioButton::indicator:unchecked {
+    background-color:       white;
+    border:                 2px solid white;
+}</string>
+         </property>
          <property name="text">
           <string>krajnji</string>
          </property>
@@ -135,6 +170,23 @@
        </item>
        <item alignment="Qt::AlignBottom">
         <widget class="QRadioButton" name="rPrepreka">
+         <property name="styleSheet">
+          <string notr="true">QRadioButton::indicator {
+    width:                  10px;
+    height:                 10px;
+    border-radius:          7px;
+}
+
+QRadioButton::indicator:checked {
+    background-color:       black;
+    border:                 2px solid white;
+}
+
+QRadioButton::indicator:unchecked {
+    background-color:       white;
+    border:                 2px solid white;
+}</string>
+         </property>
          <property name="text">
           <string>prepreka</string>
          </property>
@@ -150,7 +202,7 @@
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>317</x>
+      <x>600</x>
       <y>540</y>
       <width>181</width>
       <height>61</height>
@@ -184,6 +236,32 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QCheckBox" name="checkDiagonalno">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>510</y>
+      <width>16</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>510</y>
+      <width>141</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>diagonalno kretanje</string>
+    </property>
    </widget>
   </widget>
  </widget>

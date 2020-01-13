@@ -28,7 +28,7 @@ private:
     void Paint(int i,int j,QColor boja);                //oboji dugme(red,kolona) u boju
     int red=0,kolona=0;                                 //promenljiva koja cuva velicinu reda i kolone
     int start[2]={-1,-1},end[2]={-1,-1};                //koordinate starta i cilja
-    QVector<int> prepreke;                              //vektor koji cuva pozicije prepreka oblika 100*red + kolona
+    QVector<int> prepreke;                              //vektor koji cuva pozicije prepreka oblika 36*red + kolona
     void SetStart(int i,int j);                         //postavljanje starta u obliku (red,kolona)
     void SetEnd(int i,int j);                           //postavljanje cilja u obliku (red,kolona)
     void SetPrepreka(int i,int j);                      //postavljanje prepreke u obliku(red,kolona)
@@ -38,7 +38,8 @@ private:
     Algoritmi *objekat;
     bool pronadjen_put=false;                           //indikator pronadjenog puta
     void SoftClear();                                   //zadrzi prepreke i pocetno i krajnje polje
-    bool softclear=true;                               //boolean koji bira izmedju soft i hard clear-a
+    bool softclear=true;                                //boolean koji bira izmedju soft i hard clear-a
+    bool allowDiagonal=false;                           //boolean koji kaze da li je dozvoljeno diagonalno kretanje
 private slots:
 
     void StartPressed();                    //pokretanje algoritma
@@ -52,5 +53,6 @@ private slots:
     void onMiddleClicked();                 //promeni odabir za iscrtavanje klikom na tockic
     void Animiraj();                        //animiraj vektor
     void PromeniSoftClear();                //postavlja bool na false
+    void RadioClicked();                    //radio button pritisnut
 };
 #endif // MAINWINDOW_H

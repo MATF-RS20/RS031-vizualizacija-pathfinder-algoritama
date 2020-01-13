@@ -11,14 +11,15 @@ class Algoritmi: public QObject
 {
     Q_OBJECT
 public:
-    Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int> tprepreke,QRightClickButton *button[20][35]);  //konstruktor
+    Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int> tprepreke,QRightClickButton *button[20][35],bool diag);  //konstruktor
     virtual ~Algoritmi(){}
     QVector<int> DFS(int start,int end);
     QVector<int> getNeighbors(int n);
     QVector<int> BFS(int start, int end);
-    QVector<int> Astar(int start,int end);
+    QVector<int> Astar(int start,int end,int tipHeuristike);
     QVector<int> Dijkstra(int start,int end);
     QTimer *korak;
+    QVector<int> getNeighbors2(int n);
 
 private:
 int red=0,kolona=0;                      //promenljiva koja cuva velicinu reda i kolone
@@ -30,7 +31,9 @@ QVector<QVector<int>> redovi;            //Vektor koji prica do kog je reda stig
 int br_reda=0;
 void Paint(int i,int j,QColor boja);     //oboji dugme
 QRightClickButton *button[20][35];       //niz koji cuva buttone u obliku matrice
-int Heuristika(int x);                   //heuristika chebyshev
+int Heuristika(int x, int tip);          //heuristika chebyshev
+int HeuristikaManhattan(int x);            //heuristika manhattan
+bool diagonalno;                         //da li je dozvoljeno dijagonalno kretanje
 
 private slots:
     void Animiraj();                     //Animacija pojedinacnog koraka
