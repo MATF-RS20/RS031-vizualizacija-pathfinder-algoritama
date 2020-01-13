@@ -19,7 +19,6 @@ Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int
                     button[i][j] = butto[i][j];
             }
         }
-
 }
 
 bool Algoritmi::outOfBounds(int x){

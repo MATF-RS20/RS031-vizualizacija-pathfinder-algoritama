@@ -44,6 +44,11 @@ MainWindow::MainWindow(QWidget *parent)
     timer= new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(Animiraj()));
 
+    //povezivanje timera za softclear
+    softcleartimer= new QTimer(this);
+    softcleartimer->setSingleShot(true);
+    connect(softcleartimer,SIGNAL(timeout()),this,SLOT(PromeniSoftClear()));
+
 }
 
 MainWindow::~MainWindow()
@@ -181,6 +186,7 @@ void MainWindow::SetStart(int i, int j){
 
     start[0]=i;
     start[1]=j;
+    PromeniSoftClear();
 }
 
 void MainWindow::SetEnd(int i, int j){
@@ -206,6 +212,7 @@ void MainWindow::SetEnd(int i, int j){
     Paint(i,j,Qt::red);
     end[0]=i;
     end[1]=j;
+    PromeniSoftClear();
 }
 
 void MainWindow::SetPrepreka(int i, int j){
@@ -226,10 +233,18 @@ void MainWindow::SetPrepreka(int i, int j){
     Paint(i,j,Qt::black);
     //globalni vektor prepreka oblika(100*red + kolona)
     prepreke.push_back(100*i+j);
+    PromeniSoftClear();
 }
 
 void MainWindow::Clear(){
-
+    if(softclear){
+        SoftClear();
+        //omoguciti fullclear ako je dva puta pritsnuto dugme clear u roku
+        //od 5 sekundi
+        softclear=false;
+        softcleartimer->start(5000);
+    }
+    else{
  // qDebug()<<prepreke;
     timer->stop();
     if(objekat!=nullptr)objekat->korak->stop();
@@ -269,7 +284,7 @@ void MainWindow::Clear(){
     SetEnd(red/2,3*kolona/4);
     Iscrtaj();
  // qDebug()<<prepreke;
-}
+}}
 
 void MainWindow::onRightClicked()
 {
@@ -300,6 +315,7 @@ void MainWindow::onRightClicked()
     QPalette tmp = this->style()->standardPalette();
     button[i][j]->setPalette(tmp);
     button[i][j]->update();
+    PromeniSoftClear();
 
 }
 
@@ -334,7 +350,7 @@ void MainWindow::StartPressed(){
     }
     //soft ciscenje
     SoftClear();
-
+    PromeniSoftClear();
     //postavi indikator
     pronadjen_put=false;
 
@@ -482,4 +498,8 @@ void MainWindow::SoftClear(){
         Paint(x/100,x%100,Qt::black);
     }
 
+}
+
+void MainWindow::PromeniSoftClear(){
+    softclear=true;
 }

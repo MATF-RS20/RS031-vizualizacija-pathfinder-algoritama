@@ -34,12 +34,11 @@ private:
     void SetPrepreka(int i,int j);                      //postavljanje prepreke u obliku(red,kolona)
     void ShowPath(QVector<int> put);                    //ofarbaj put
     QVector<int> path,put;                              //put prethodnog algoritma
-    QVector<QVector<int>> path1;
-    QTimer *timer;
+    QTimer *timer,*softcleartimer;                      //timer za animaciju i SoftClear timer
     Algoritmi *objekat;
     bool pronadjen_put=false;                           //indikator pronadjenog puta
     void SoftClear();                                   //zadrzi prepreke i pocetno i krajnje polje
-
+    bool softclear=true;                               //boolean koji bira izmedju soft i hard clear-a
 private slots:
 
     void StartPressed();                    //pokretanje algoritma
@@ -52,5 +51,6 @@ private slots:
     void onRightClicked();                  //ako se button pritisne desnim klikom onda clear taj button
     void onMiddleClicked();                 //promeni odabir za iscrtavanje klikom na tockic
     void Animiraj();                        //animiraj vektor
+    void PromeniSoftClear();                //postavlja bool na false
 };
 #endif // MAINWINDOW_H
