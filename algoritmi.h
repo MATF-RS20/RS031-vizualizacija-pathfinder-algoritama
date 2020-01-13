@@ -30,6 +30,7 @@ QVector<QVector<int>> redovi;          //Vektor koji prica do kog je reda stigao
 int br_reda=0;
 void Paint(int i,int j,QColor boja);    //oboji dugme
 QRightClickButton *button[20][35];      //niz koji cuva buttone u obliku matrice
+int Heuristika(int x);                          //heuristika chebyshev
 
 private slots:
     void Animiraj();                    //Animacija pojedinacnog koraka

@@ -370,6 +370,37 @@ void MainWindow::StartPressed(){
             }
        qDebug()<<path;
     }
+    if(alg->currentIndex()==2){
+
+       path=objekat->Dijkstra(start[0]*100+start[1],end[0]*100+end[1]);
+       //ShowPath(path);
+       put=path;
+       //prikazi animiran put
+       timer->start(200);
+       if(!put.isEmpty()){
+            pronadjen_put=true;
+            put.pop_front();
+            put.pop_back();
+            std::reverse(put.begin(), put.end());
+            }
+       qDebug()<<path;
+    }
+
+    if(alg->currentIndex()==3){
+
+       path=objekat->Astar(start[0]*100+start[1],end[0]*100+end[1]);
+       //ShowPath(path);
+       put=path;
+       //prikazi animiran put
+       timer->start(200);
+       if(!put.isEmpty()){
+            pronadjen_put=true;
+            put.pop_front();
+            put.pop_back();
+
+            }
+       qDebug()<<path;
+    }
 }
 
 void MainWindow::ShowPath(QVector<int> put){
