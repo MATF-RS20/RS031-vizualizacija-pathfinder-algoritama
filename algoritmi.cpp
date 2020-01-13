@@ -21,10 +21,15 @@ Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int
         }
 }
 
+Algoritmi::~Algoritmi(){
+    delete **button;
+    delete korak;
+}
+
 bool Algoritmi::outOfBounds(int x){
     int i=x/36;
     int j=x%36;
-
+    if(i==0 && j==0)return true;
     if(i>=0 && i<red && j<kolona && j>=0) {
         return true;
     }
@@ -212,7 +217,7 @@ QVector<int> Algoritmi::BFS(int start, int end){
                 krk.push_back(m);
             }
         }
-    if(!krk.isEmpty()){redovi.push_back(krk);korak->start(50);}
+    if(!krk.isEmpty()){redovi.push_back(krk);korak->start(20);}
     }
     // ako je petlja zavrsena put nije pronadjen,
     // izvesti da trazeni put ne postoji.
@@ -251,12 +256,12 @@ QVector<int> Algoritmi::Astar(int start,int end,int tipHeuristike){
             while (!open_list.isEmpty()) {
 
                 QVector<int> krk;
-                n=0;
+                n=-1;
                 for(int v:open_list)
-                {if (n == 0 or g[v] + Heuristika(v,tipHeuristike) < g[n] +  Heuristika(n,tipHeuristike))
+                {if (n == -1 or g[v] + Heuristika(v,tipHeuristike) < g[n] +  Heuristika(n,tipHeuristike))
                         n = v;}
 
-                if (n == 0){
+                if (n == -1){
                     qDebug()<<"Trazeni put ne postoji";
                     return QVector<int>(0);}
 

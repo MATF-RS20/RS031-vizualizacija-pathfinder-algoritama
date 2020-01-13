@@ -12,7 +12,7 @@ class Algoritmi: public QObject
     Q_OBJECT
 public:
     Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int> tprepreke,QRightClickButton *button[20][35],bool diag);  //konstruktor
-    virtual ~Algoritmi(){}
+    ~Algoritmi();
     QVector<int> DFS(int start,int end);
     QVector<int> getNeighbors(int n);
     QVector<int> BFS(int start, int end);
