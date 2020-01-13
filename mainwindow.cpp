@@ -305,9 +305,6 @@ void MainWindow::onRightClicked()
 
 
 void MainWindow::StartPressed(){
-    //soft ciscenje
-    SoftClear();
-
     //sakupi sve podatke
     std::sort(prepreke.begin(),prepreke.end());
     QComboBox *alg= MainWindow::findChild<QComboBox*>("selectBox");
@@ -319,13 +316,30 @@ void MainWindow::StartPressed(){
     qDebug()<<"Prepreke: ";
     for(auto i:prepreke)
     qDebug()<<i/100<<" "<<i%100;
-    objekat=new Algoritmi(start, end, red,  kolona, prepreke, button);
 
+
+    if(start[0]==-1 || start[1]==-1){
+        QMessageBox::information(
+            this,
+            tr(""),
+            tr("Molim vas odaberite pocetno polje") );
+        return;
+    }
+    if(end[0]==-1 ||end[1]==-1 ){
+        QMessageBox::information(
+            this,
+            tr(""),
+            tr("Molim vas odaberite krajnje polje") );
+        return;
+    }
+    //soft ciscenje
+    SoftClear();
 
     //postavi indikator
     pronadjen_put=false;
 
     //proveri koji je algoritam i pozovi ga
+    objekat=new Algoritmi(start, end, red,  kolona, prepreke, button);
     if(alg->currentIndex()==0){
 
         path=objekat->DFS(start[0]*100+start[1],end[0]*100+end[1]);
