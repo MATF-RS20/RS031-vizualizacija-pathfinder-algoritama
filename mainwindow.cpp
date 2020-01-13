@@ -328,32 +328,38 @@ void MainWindow::StartPressed(){
         }
         path.clear();
     }
-    //proveri koji je algoritam i pozovi ga
+    //postavi indikator
+    pronadjen_put=false;
 
+    //proveri koji je algoritam i pozovi ga
     if(alg->currentIndex()==0){
 
         path=objekat->DFS(start[0]*100+start[1],end[0]*100+end[1]);
         //ShowPath(path);
         put=path;
+        timer->start(200);
         if(!put.isEmpty()){
-        put.pop_front();
-        put.pop_back();
-        std::reverse(put.begin(), put.end());
-        timer->start(200);}
+            pronadjen_put=true;
+            put.pop_front();
+            put.pop_back();
+            std::reverse(put.begin(), put.end());
+            }
         qDebug()<<path;
 
     }
 
     if(alg->currentIndex()==1){
+
        path=objekat->BFS(start[0]*100+start[1],end[0]*100+end[1]);
        //ShowPath(path);
        put=path;
        //prikazi animiran put
+       timer->start(200);
        if(!put.isEmpty()){
-       put.pop_front();
-       put.pop_back();
-       timer->start(200);}
-
+            pronadjen_put=true;
+            put.pop_front();
+            put.pop_back();
+            }
        qDebug()<<path;
     }
 }
@@ -383,7 +389,18 @@ void MainWindow::Animiraj()
           Paint(i,j,Qt::blue);
          put.pop_back();
       }
+    else{
+         if(!pronadjen_put){
+             QMessageBox::information(
+                 this,
+                 tr(""),
+                 tr("Put ne postoji.") );
+         }
+         timer->stop();
+
+     }
     }
+
 }
 
 void MainWindow::onMiddleClicked(){

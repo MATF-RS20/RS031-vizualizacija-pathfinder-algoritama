@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <QQueue>
 #include <algoritmi.h>
+#include <QMessageBox>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -36,6 +37,7 @@ private:
     QVector<QVector<int>> path1;
     QTimer *timer;
     Algoritmi *objekat;
+    bool pronadjen_put=false;                           //indikator pronadjenog puta
 
 
 private slots:
