@@ -14,4 +14,7 @@ Korisniku ce biti omoguceno:
    + odabir algoritama pretrage
 
 Levi klik iscrtava polje, desni klik brise polje, dok pritiskom na tockic misa se menja odabir trenutnog iscrtavanja (pocetno polje, krajnje polje i polje prepreke)
-Pritiskom na dugme start se pokrece algoritam. Single click na clear cisti sa polja sve sto je uradio prethodni algoritam, a ako korisnik klikne dva puta na clear u roku od 5 sekundi desice se hard clear (ocistice sve sa grida i postaviti start i end na podrazumevano) 
+
+Pritiskom na dugme start se pokrece algoritam. 
+
+Single click na clear cisti sa polja sve sto je uradio prethodni algoritam, a ako korisnik klikne dva puta na clear u roku od 5 sekundi desice se hard clear (ocistice sve sa grida i postaviti start i end na podrazumevano) 
