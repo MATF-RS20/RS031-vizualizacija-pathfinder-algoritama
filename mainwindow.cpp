@@ -6,7 +6,6 @@
 #include <algorithm>
 #include "algoritmi.h"
 
-
 static QSize velicina(20,20);          //podrazumevana velicina
 //platno size WxH = 700x400
 MainWindow::MainWindow(QWidget *parent)
@@ -68,11 +67,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     QRadioButton *prepreka= MainWindow::findChild<QRadioButton*>("rPrepreka");
     connect(prepreka,SIGNAL(clicked()),this,SLOT(RadioClicked()));
-
-    mDialog = new Popup(this);
-    mDialog->move(200,124);
-    mDialog->show();
-
+    Popup *tut;
+    tut=new Popup(this);
+    tut->move(200,124);
+    tut->show();
 }
 
 MainWindow::~MainWindow()

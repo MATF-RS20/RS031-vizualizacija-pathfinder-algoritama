@@ -41,7 +41,7 @@ private:
     void SoftClear();                                   //zadrzi prepreke i pocetno i krajnje polje
     bool softclear=true;                                //boolean koji bira izmedju soft i hard clear-a
     bool allowDiagonal=false;                           //boolean koji kaze da li je dozvoljeno diagonalno kretanje
-    Popup *mDialog;                                     //tutorial text dialog
+
 private slots:
 
     void StartPressed();                    //pokretanje algoritma
