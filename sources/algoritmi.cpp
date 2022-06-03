@@ -223,8 +223,7 @@ QVector<int> Algoritmi::BFS(int start, int end){
     // izvesti da trazeni put ne postoji.
 
     qDebug()<<"Trazeni put ne postoji";
-    QVector<int> *nista=new QVector<int>();
-    return *nista;
+    return *path;
 }
 
 QVector<int> Algoritmi::Dijkstra(int start, int end){
