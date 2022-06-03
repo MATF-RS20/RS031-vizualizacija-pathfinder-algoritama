@@ -1,5 +1,5 @@
-#include "algoritmi.h"
-#include "mainwindow.h"
+#include "headers/algoritmi.h"
+#include "headers/mainwindow.h"
 #include <QQueue>
 
 Algoritmi::Algoritmi(int tstart[2],int tend[2],int tred,int tkolona, QVector<int> tprepreke, QRightClickButton *butto[20][35], bool diag)

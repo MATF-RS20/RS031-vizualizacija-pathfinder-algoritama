@@ -1,10 +1,10 @@
-#include "mainwindow.h"
+#include "headers/mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QMouseEvent>
-#include "qrightclickbutton.h"
+#include "headers/qrightclickbutton.h"
 #include <algorithm>
-#include "algoritmi.h"
+#include "headers/algoritmi.h"
 
 static QSize velicina(20,20);          //podrazumevana velicina
 //platno size WxH = 700x400

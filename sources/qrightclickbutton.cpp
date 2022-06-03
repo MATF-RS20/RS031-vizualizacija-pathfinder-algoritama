@@ -1,4 +1,4 @@
-#include "qrightclickbutton.h"
+#include "headers/qrightclickbutton.h"
 
 //klasa koja nasledjuje QPushButton
 //jedina razlika je drugacije implementiran mousePressEvent
