@@ -5,10 +5,10 @@
 #include <QVector>
 #include <QPushButton>
 #include <QSize>
-#include <qrightclickbutton.h>
+#include "qrightclickbutton.h"
 #include <QTimer>
 #include <QQueue>
-#include <algoritmi.h>
+#include "algoritmi.h"
 #include <QMessageBox>
 #include "popup.h"
 QT_BEGIN_NAMESPACE

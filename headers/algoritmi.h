@@ -6,7 +6,7 @@
 #include <QStack>
 #include <QDebug>
 #include <QTimer>
-#include <qrightclickbutton.h>
+#include "qrightclickbutton.h"
 class Algoritmi: public QObject
 {
     Q_OBJECT
