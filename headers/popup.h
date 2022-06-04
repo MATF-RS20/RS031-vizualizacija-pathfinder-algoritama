@@ -3,7 +3,8 @@
 
 #include <QDialog>
 
-namespace Ui {
+namespace Ui
+{
 class Popup;
 }
 
@@ -11,11 +12,11 @@ class Popup : public QDialog
 {
     Q_OBJECT
 
-public:
+  public:
     explicit Popup(QWidget *parent = nullptr);
     ~Popup();
 
-private:
+  private:
     Ui::Popup *ui;
 };
 

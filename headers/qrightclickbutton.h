@@ -1,25 +1,24 @@
 #ifndef QRIGHTCLICKBUTTON_H
 #define QRIGHTCLICKBUTTON_H
 
-#include <QPushButton>
 #include <QMouseEvent>
+#include <QPushButton>
 
 class QRightClickButton : public QPushButton
 {
     Q_OBJECT
 
-public:
+  public:
     explicit QRightClickButton(QWidget *parent = 0);
 
-private slots:
+  private slots:
     void mousePressEvent(QMouseEvent *e);
 
-signals:
+  signals:
     void rightClicked();
     void middleClicked();
 
-public slots:
-
+  public slots:
 };
 
 #endif // QRIGHTCLICKBUTTON_H
