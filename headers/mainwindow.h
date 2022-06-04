@@ -36,7 +36,7 @@ private:
     void ShowPath(QVector<int> put);                    //ofarbaj put
     QVector<int> path,put;                              //put prethodnog algoritma
     QTimer *timer,*softcleartimer;                      //timer za animaciju i SoftClear timer
-    Algoritmi *objekat;
+    Algoritmi *objekat = nullptr;
     bool pronadjen_put=false;                           //indikator pronadjenog puta
     void SoftClear();                                   //zadrzi prepreke i pocetno i krajnje polje
     bool softclear=true;                                //boolean koji bira izmedju soft i hard clear-a
