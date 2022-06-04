@@ -141,7 +141,7 @@ QVector<int> Algoritmi::DFS(int start, int end){
         if(diagonalno) komsije=getNeighbors(n);
         else komsije=getNeighbors2(n);
         // Ako n IMA potomaka koji nisu poseceni
-        for (int m:komsije){
+        for (int m:qAsConst(komsije)){
             if (visited.indexOf(m)==-1) {
                 //(m not in visited)
                 // Izaberi prvog takvog potomka m
@@ -209,7 +209,7 @@ QVector<int> Algoritmi::BFS(int start, int end){
         if(diagonalno) komsije=getNeighbors(n);
         else komsije=getNeighbors2(n);
 
-        for(int m : komsije){
+        for(int m : qAsConst(komsije)){
             if(visited[m]==0){
                 parent[m]=n;
                 visited[m]=1;
@@ -285,7 +285,7 @@ QVector<int> Algoritmi::Astar(int start,int end,int tipHeuristike){
                 if(diagonalno) komsije=getNeighbors(n);
                 else komsije=getNeighbors2(n);
 
-                for (int m:komsije){
+                for (int m:qAsConst(komsije)){
 
                     // Ako m nije ni u otvorenoj ni u zatvorenoj listi, dodaj ga u otvorenu listu
                     // i oznaci n kao njegovog roditelja.

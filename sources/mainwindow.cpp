@@ -353,7 +353,7 @@ void MainWindow::StartPressed(){
     qDebug()<<"Start: "<<start[0]<<" "<<start[1];
     qDebug()<<"Cilj: "<<end[0]<<" "<<end[1];
     qDebug()<<"Prepreke: ";
-    for(auto i:prepreke)
+    for(auto i:qAsConst(prepreke))
     qDebug()<<i/36<<" "<<i%36;
 
 
@@ -529,7 +529,7 @@ void MainWindow::SoftClear(){
         }
     SetStart(start[0],start[1]);
     SetEnd(end[0],end[1]);
-    for(auto x: prepreke){
+    for(auto x: qAsConst(prepreke)){
         Paint(x/36,x%36,Qt::black);
     }
 
